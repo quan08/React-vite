@@ -4,10 +4,11 @@ import { Typography, Button, Table, Select, Space, Modal } from 'antd';
 import { Link, useNavigate } from 'react-router-dom'
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
-import { getAll, getByCate } from "../../../api/product";
+import { getAll, getByCate, getById, updateProduct } from "../../../api/product";
 import { useQuery } from 'react-query'
 import Input from "antd/lib/input/Input";
 import { Option } from "antd/lib/mentions";
+import{CheckOutlined, CloseOutlined} from '@ant-design/icons';
 const { Paragraph } = Typography
 import {
     AutoComplete,
@@ -27,8 +28,14 @@ interface DataType {
     description: string;
 }
 
+type ProductsListProps = {
+    product: ProductTye[];
+    handleChangeFilter: (value: string) => void,
+    changeStatus: (id: any) => void
+  }
 
-const ProductAdminPage = () => {
+
+const ProductAdminPage = (props: ProductsListProps) => {
     const navigate = useNavigate()
     const [modalText, setModalText] = React.useState<string>();
     const [visible, setVisible] = React.useState(false);
@@ -71,13 +78,14 @@ const ProductAdminPage = () => {
         },
         {
             title: 'Ẩn/hiện',
-            dataIndex: '',
-            key: '',
-            render: (record: any) => (
-                <Space size="middle">
-                    <Button type="primary"><span>Change</span></Button>
-                </Space>
-            ),
+            dataIndex: 'status',
+            key: 'status',
+            render: (record: any) => {
+                if(record === "hiện") {
+                    return <CheckOutlined/>
+                }
+                return <CloseOutlined />
+            }
         },
         {
             title: 'Thao tác',
@@ -85,6 +93,9 @@ const ProductAdminPage = () => {
             dataIndex: 'id',
             render: (record: any) => (
                 <Space size="middle">
+                    <Button onClick={ async() => {
+                        props.changeStatus(record)
+                    }} type="danger"><span>Change</span></Button>
                     <Button onClick={() => navigate(`edit/${record}`)} type="primary"><span>Edit</span></Button>
                 </Space>
             ),
@@ -107,24 +118,13 @@ const ProductAdminPage = () => {
         setVisible(false);
     };
 
-
-    const fetchData = async () => {
-        const data = await getAll()
-        setDataTable(data.data)
-    }
-
-    const handleChangeFilter = async (e: any) => {
-        if (e === '') {
-            fetchData()
-            return
-        }
-        const data = await getByCate(e)
-        setDataTable(data.data)
+    const handleChangeFilter = (e: any) => {
+        props.handleChangeFilter(e)
     }
 
     // fetchData()
     useEffect(() => {
-        fetchData()
+        setDataTable(props.product)
     }, [])
 
     // const { isLoading, data, error } = useQuery("Products", getAll)
@@ -148,7 +148,7 @@ const ProductAdminPage = () => {
                     <Option value="tablet">Máy tính bảng</Option>
                 </Select>
             </div>
-            <Table columns={columns} dataSource={dataTable} />
+            <Table columns={columns} dataSource={props.product} />
             <Modal
                 title="ácacacs"
                 visible={visible}
