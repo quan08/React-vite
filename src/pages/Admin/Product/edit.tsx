@@ -22,7 +22,7 @@ type FormInputs = {
 }
 
 type ProductsEditProps = {
-  handleUPdate: (data: any) => void
+  handleUPdates: (data: any, id: any) => void
 }
 
 const EditProductPage = (props: ProductsEditProps) => {
@@ -40,7 +40,7 @@ const EditProductPage = (props: ProductsEditProps) => {
     console.log(values.image)
     console.log('Success:', values);
     try {
-      props.handleUPdate(values, id)
+      props.handleUPdates(values, id)
       message.success("Cập nhật thành công")
       navigate(-1)
     } catch (err) {

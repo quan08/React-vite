@@ -74,7 +74,7 @@ function App(props: any) {
           <Route path='products' >
             <Route index element={<ProductAdminPage changeStatus={changeStatus} handleChangeFilter={handleChangeFilter} product={products} />} />
             <Route path='add' element={<AddProductPage />} />
-            <Route path='edit/:id' element={<EditProduct  handleUPdate={handleUPdateProducts}/>} />
+            <Route path='edit/:id' element={<EditProduct  handleUPdates={handleUPdateProducts}/>} />
           </Route>
           <Route path='categories' element={<CategoriesPage />} />
         </Route>
