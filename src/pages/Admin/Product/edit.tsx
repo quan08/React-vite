@@ -21,8 +21,12 @@ type FormInputs = {
   status: number
 }
 
-const EditProductPage: React.FC = () => {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<FormInputs>();
+type ProductsEditProps = {
+  handleUPdate: (data: any) => void
+}
+
+const EditProductPage = (props: ProductsEditProps) => {
+  const [form] = Form.useForm();
   const [SaleOffPrice, setSaleOffPrice] = useState<number>(0);
   const [OriginalPrice, setOriginalPrice] = useState<number>(0);
   const [mesValidatePrice, setMesValidatePrice] = useState<string>('');
@@ -36,7 +40,7 @@ const EditProductPage: React.FC = () => {
     console.log(values.image)
     console.log('Success:', values);
     try {
-      const data = await updateProduct(values, id)
+      props.handleUPdate(values, id)
       message.success("Cập nhật thành công")
       navigate(-1)
     } catch (err) {
@@ -75,7 +79,15 @@ const EditProductPage: React.FC = () => {
       const { data } = await getById(id);
       setProducts(data[0])
       setImage(data[0].image)
-      reset(data[0])
+      form.setFieldsValue({
+        name: data[0].name,
+        originalPrice: data[0].originalPrice,
+        saleOffPrice: data[0].saleOffPrice,
+        categories: data[0].categories,
+        status: data[0].status,
+        feature: data[0].feature,
+        description: data[0].description
+      });
     }
 
     getProduct()
@@ -105,6 +117,7 @@ const EditProductPage: React.FC = () => {
           <Typography.Title level={5}>Thông tin sản phẩm</Typography.Title>
           <Form
             // name="product"
+            form={form} // Add this!
             initialValues={{}}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}

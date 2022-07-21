@@ -2,14 +2,15 @@
   "users": [],
   "products": [
     {
-      "name": "Apple iPhone 13 Pro Max",
+      "name": "Apple iPhone 14",
       "originalPrice": 122222,
       "saleOffPrice": 12312321312,
       "categories": "watch",
+      "status": "ẩn",
       "feature": "Apple iPhone 13 Pro Max",
       "description": "Apple iPhone 13 Pro Max",
-      "id": 1,
-      "status": "ẩn"
+      "image": "http://res.cloudinary.com/dv3vzmogk/image/upload/v1658429418/anhhtus/fwtnncet1mrpmprgtl2q.jpg",
+      "id": 1
     },
     {
       "name": "Apple iPhone 13 Pro Max",
@@ -95,10 +96,11 @@
       "name": "sp new2",
       "originalPrice": 14,
       "saleOffPrice": 13,
-      "status": "1",
       "categories": "phone",
+      "status": "hiện",
       "feature": "jkl.j",
       "description": "jk.,j,",
+      "image": "http://res.cloudinary.com/dv3vzmogk/image/upload/v1658429344/anhhtus/vdev3oqpffa8bwpem7vv.jpg",
       "id": 10
     },
     {

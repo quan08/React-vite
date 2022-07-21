@@ -82,9 +82,13 @@ const ProductAdminPage = (props: ProductsListProps) => {
             key: 'status',
             render: (record: any) => {
                 if(record === "hiện") {
-                    return <CheckOutlined/>
+                    return <div style={{color: "green", fontSize: "20px"}}>
+                        <CheckOutlined/>
+                    </div>
                 }
-                return <CloseOutlined />
+                return <div style={{color: "red", fontSize: "20px"}}>
+                    <CloseOutlined />
+                </div>
             }
         },
         {
@@ -92,10 +96,11 @@ const ProductAdminPage = (props: ProductsListProps) => {
             key: 'id',
             dataIndex: 'id',
             render: (record: any) => (
-                <Space size="middle">
-                    <Button onClick={ async() => {
+                <Space  size="middle">
+                    
+                    <Button danger onClick={ async() => {
                         props.changeStatus(record)
-                    }} type="danger"><span>Change</span></Button>
+                    }}  ><span>Change</span></Button>
                     <Button onClick={() => navigate(`edit/${record}`)} type="primary"><span>Edit</span></Button>
                 </Space>
             ),

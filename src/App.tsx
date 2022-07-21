@@ -29,6 +29,12 @@ function App(props: any) {
     setProducts(data.data)
   }
 
+  const handleUPdateProducts = async(datas: any, id: any) => {
+    await updateProduct(datas, id)
+    const {data} = await getAll();
+    setProducts(data)
+  }
+
   const changeStatus = async (id: any) => {
     const {data} = await getById(id)
     let statusNew = "";
@@ -68,7 +74,7 @@ function App(props: any) {
           <Route path='products' >
             <Route index element={<ProductAdminPage changeStatus={changeStatus} handleChangeFilter={handleChangeFilter} product={products} />} />
             <Route path='add' element={<AddProductPage />} />
-            <Route path='edit/:id' element={<EditProduct />} />
+            <Route path='edit/:id' element={<EditProduct  handleUPdate={handleUPdateProducts}/>} />
           </Route>
           <Route path='categories' element={<CategoriesPage />} />
         </Route>
