@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Typography, Button, Table, Select, Space, Modal } from 'antd';
+import { Typography, Button, Table, Select, Space, Modal, message } from 'antd';
 import { Link, useNavigate } from 'react-router-dom'
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
@@ -32,6 +32,7 @@ type ProductsListProps = {
     product: ProductTye[];
     handleChangeFilter: (value: string) => void,
     changeStatus: (id: any) => void
+    onRemovePro: (id: any) => void
   }
 
 
@@ -41,14 +42,14 @@ const ProductAdminPage = (props: ProductsListProps) => {
     const [visible, setVisible] = React.useState(false);
     const [confirmLoading, setConfirmLoading] = React.useState(false);
     const [dataTable, setDataTable] = useState<ProductTye[]>([])
-
+    const [proDelete, setProdelete] = useState<ProductTye>();
 
     const handleOk = async () => {
         setModalText('Xóa thành công ');
         // const res = await listMenu();
         setConfirmLoading(true);
-        // props.onRemove(staff);
-        // navigate("/admin/menu")
+        props.onRemovePro(proDelete?.id);
+        message.success("Xóa thành công " + proDelete?.name)
         setVisible(false);
         // setConfirmLoading(false);
     };
@@ -61,10 +62,12 @@ const ProductAdminPage = (props: ProductsListProps) => {
             render: text => <a>{text}</a>,
         },
         {
-            title: 'Đặc điểm',
-            dataIndex: 'feature',
-            key: 'feature',
-            render: text => <a>{text}</a>,
+            title: 'Image',
+            dataIndex: 'image',
+            key: 'image',
+            render: (record: any) => (
+                <img width="150px" height="150px" src={record} alt="" />
+            )
         },
         {
             title: 'Giá khuyến mãi',
@@ -100,8 +103,9 @@ const ProductAdminPage = (props: ProductsListProps) => {
                     
                     <Button danger onClick={ async() => {
                         props.changeStatus(record)
-                    }}  ><span>Change</span></Button>
+                    }}  ><span>ChangeStatus</span></Button>
                     <Button onClick={() => navigate(`edit/${record}`)} type="primary"><span>Edit</span></Button>
+                    <Button set-data={record} onClick={showModal} danger><span set-data={record}>Dell</span></Button>
                 </Space>
             ),
         },
@@ -111,9 +115,10 @@ const ProductAdminPage = (props: ProductsListProps) => {
     const showModal = async (e: any) => {
         const id = e.target.getAttribute('set-data');
         console.log(id)
-        // const { data } = await getStaff(id)
-        // setStaff(data)      
-        setModalText(`*Nếu chắc chắn hãy nhấn ok`);
+        const { data } = await getById(id)
+        console.log(data)
+        setProdelete(data[0])
+        setModalText(`*Sản phẩm sẽ bị xóa vĩnh viễn`);
         setVisible(true);
         setConfirmLoading(false);
     };
@@ -155,13 +160,14 @@ const ProductAdminPage = (props: ProductsListProps) => {
             </div>
             <Table columns={columns} dataSource={props.product} />
             <Modal
-                title="ácacacs"
+
+                title={proDelete?.name}
                 visible={visible}
                 onOk={handleOk}
                 confirmLoading={confirmLoading}
                 onCancel={handleCancel}
             >
-                {/* <h4>{staff?.name}</h4> */}
+                <img width="80px" height="80px" src={proDelete?.image} alt="" /> <br /> <br />
                 <strong className='text-danger'>{modalText}</strong>
             </Modal>
         </>

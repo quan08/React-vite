@@ -12,6 +12,11 @@ export const getByCate= (value: string) => {
     return instance.get(url)
 }
 
+export const getByName= (value: string) => {
+    const url = `/products?name_like=${value}`
+    return instance.get(url)
+}
+
 export const getById= (value: any) => {
     const url = `/products?id=${value}`
     return instance.get(url)
@@ -32,7 +37,7 @@ export const changeStatusProduct = (data:any, id: any) => {
     return instance.put(url, data)
 }
 
-export const remove = (id: number) => {
+export const remove = (id: any) => {
     const url = `/products/${id}`;
     return instance.delete(url);
 }

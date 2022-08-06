@@ -6,14 +6,16 @@ import ProductAdminPage from './pages/Admin/Product/product'
 import CategoriesPage from './pages/Admin/categories'
 import AdminLayout from './components/Layout/admin'
 import UserLayout from './components/Layout/user'
-import HomePage from './pages/Home/home'
+import HomePage from './pages/User/Home/Home'
 import AddProductPage from './pages/Admin/Product/add'
-import DetailPage from './pages/Home/Detail'
 import EditProduct from './pages/Admin/Product/edit'
 import SigninPage from './pages/Auth/signin'
-import { getAll, getByCate, getById, updateProduct } from './api/product'
+import { getAll, getByCate, getById, remove, updateProduct } from './api/product'
 import { ProductTye } from './types/product'
 import { message } from 'antd'
+import ProductsDetail from './pages/User/ProductsDetail/ProductsDetail'
+import Cart from './pages/User/Cart/Cart'
+
 
 function App(props: any) {
   const [count, setCount] = useState(0)
@@ -29,21 +31,32 @@ function App(props: any) {
     setProducts(data.data)
   }
 
-  const handleUPdateProducts = async(datas: any, id: any) => {
+  const handleFillterCate = async (key: any) => {
+    const {data} = await getByCate(key)
+    setProducts(data)
+  }
+
+  const handleUPdateProducts = async (datas: any, id: any) => {
     await updateProduct(datas, id)
-    const {data} = await getAll();
+    const { data } = await getAll();
+    setProducts(data)
+  }
+
+  const handleRemove = async (id: any) => {
+    await remove(id);
+    const { data } = await getAll();
     setProducts(data)
   }
 
   const changeStatus = async (id: any) => {
-    const {data} = await getById(id)
+    const { data } = await getById(id)
     let statusNew = "";
-    if(data[0].status == "hiện") {
-        statusNew = 'ẩn'
-    }else{
-        statusNew = 'hiện'
+    if (data[0].status == "hiện") {
+      statusNew = 'ẩn'
+    } else {
+      statusNew = 'hiện'
     }
-    const dataUpdate = {...data[0], status: statusNew }
+    const dataUpdate = { ...data[0], status: statusNew }
 
     await updateProduct(dataUpdate, id)
     const dataNew = await getAll();
@@ -61,20 +74,17 @@ function App(props: any) {
   return (
     <div className="App">
       <Routes>
-        {/* Auth */}
-        <Route path='/signin' element={<SigninPage />} />
-        {/* User layout */}
-        <Route path='/' element={<UserLayout />}>
-          <Route index element={<HomePage />} />
-          <Route path='detail' element={<DetailPage />} />
+        <Route path='' element={<UserLayout onFillter={handleFillterCate} />}>
+          <Route index element={<HomePage products={products}/>} />
+          <Route path="products/:id" element={<ProductsDetail />}/>
+          <Route path="cart" element={<Cart />}/>
         </Route>
-        {/* Admin layout */}
         <Route path='admin' element={<AdminLayout />}>
           <Route index element={<Navigate to="products" />} />
           <Route path='products' >
-            <Route index element={<ProductAdminPage changeStatus={changeStatus} handleChangeFilter={handleChangeFilter} product={products} />} />
+            <Route index element={<ProductAdminPage onRemovePro={handleRemove} changeStatus={changeStatus} handleChangeFilter={handleChangeFilter} product={products} />} />
             <Route path='add' element={<AddProductPage />} />
-            <Route path='edit/:id' element={<EditProduct  handleUPdates={handleUPdateProducts}/>} />
+            <Route path='edit/:id' element={<EditProduct handleUPdates={handleUPdateProducts} />} />
           </Route>
           <Route path='categories' element={<CategoriesPage />} />
         </Route>

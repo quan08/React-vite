@@ -129,9 +129,6 @@ const AddProductPage: React.FC = () => {
 									<Select style={{ width: '100%' }} size="large">
 										<Option value="phone">Điện thoại</Option>
 										<Option value="laptop">Laptop</Option>
-										<Option value="accessories" disabled>
-											Phụ kiện
-										</Option>
 										<Option value="tablet">Máy tính bảng</Option>
 									</Select>
 								</Form.Item>
