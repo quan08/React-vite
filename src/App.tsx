@@ -15,6 +15,7 @@ import { ProductTye } from './types/product'
 import { message } from 'antd'
 import ProductsDetail from './pages/User/ProductsDetail/ProductsDetail'
 import Cart from './pages/User/Cart/Cart'
+import SingnUpPape from './pages/Auth/signup'
 
 
 function App(props: any) {
@@ -78,6 +79,8 @@ function App(props: any) {
           <Route index element={<HomePage products={products}/>} />
           <Route path="products/:id" element={<ProductsDetail />}/>
           <Route path="cart" element={<Cart />}/>
+          <Route path="signin" element={<SigninPage />}/>
+          <Route path="signup" element={<SingnUpPape />}/>
         </Route>
         <Route path='admin' element={<AdminLayout />}>
           <Route index element={<Navigate to="products" />} />

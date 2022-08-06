@@ -8,4 +8,5 @@ export type ProductTye = {
     description: string,
     status: number,
     image: string,
+    quantity: number
 }

@@ -1,9 +1,16 @@
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Checkbox, Form, Input, message } from 'antd';
 import React from 'react';
+import { signup } from '../../api/auth';
 
-const SingnPape: React.FC = () => {
+const SingnUpPape: React.FC = () => {
   const onFinish = (values: any) => {
     console.log('Success:', values);
+    try {
+      signup(values)
+      message.success("Đăng ký thành công")
+    } catch (error) {
+      message.success("Đăng ký thất bại, hãy thử lại")
+    }
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -12,7 +19,7 @@ const SingnPape: React.FC = () => {
 
   return (
     <div style={{textAlign: 'center'}}>
-      <h3>SIGNIN</h3>
+      <h3>SIGNUP</h3>
       <Form
 
         name="basic"
@@ -25,7 +32,7 @@ const SingnPape: React.FC = () => {
       >
         <Form.Item
           label="Username"
-          name="username"
+          name="email"
           rules={[{ required: true, message: 'Please input your username!' }]}
         >
           <Input />
@@ -51,4 +58,4 @@ const SingnPape: React.FC = () => {
   );
 };
 
-export default SingnPape;
+export default SingnUpPape;

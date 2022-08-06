@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Outlet } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 import { getAllCate } from "../../api/categories";
 import { Categories } from "../../types/categories";
 import { Button, Modal, message } from 'antd';
@@ -105,8 +105,8 @@ const UserLayout = (props: PropsLayoutWensite) => {
                             <div className="btn-group">
                                 <button type="button" className="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
                                 <div className="dropdown-menu dropdown-menu-right">
-                                    <button className="dropdown-item" type="button">Sign in</button>
-                                    <button className="dropdown-item" type="button">Sign up</button>
+                                    <button className="dropdown-item" type="button"><Link to="/signin">Sign In</Link></button>
+                                    <button className="dropdown-item" type="button"><Link to="/signup">Sign Up</Link></button>
                                 </div>
                             </div>
                             <div className="btn-group mx-2">
@@ -208,10 +208,10 @@ const UserLayout = (props: PropsLayoutWensite) => {
                                     <i className="fas fa-heart text-primary"></i>
                                     <span className="badge text-secondary border border-secondary rounded-circle" style={{ paddingBottom: "2px" }}>0</span>
                                 </a>
-                                <a href="" className="btn px-0 ml-3">
+                                <Link to="/cart" className="btn px-0 ml-3">
                                     <i className="fas fa-shopping-cart text-primary"></i>
                                     <span className="badge text-secondary border border-secondary rounded-circle" style={{ paddingBottom: "2px" }}>0</span>
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </nav>
@@ -261,7 +261,7 @@ const UserLayout = (props: PropsLayoutWensite) => {
                                     <div className="input-group">
                                         <input type="text" className="form-control" placeholder="Your Email Address" />
                                         <div className="input-group-append">
-                                            <button className="btn btn-primary">Sign Up</button>
+                                            <button className="btn btn-primary"></button>
                                         </div>
                                     </div>
                                 </form>
