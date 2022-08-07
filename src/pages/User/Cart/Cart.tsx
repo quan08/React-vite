@@ -2,6 +2,7 @@ import { message } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { ProductTye } from '../../../types/product'
 import { getLocalStorage, setLocalStorage } from '../../../utils/cart'
+import { formatCash } from '../../../utils/formatCash'
 
 type Props = {}
 
@@ -82,7 +83,7 @@ function Cart({ }: Props) {
                                         return (
                                             <tr>
                                                 <td className="align-middle"><img src="img/product-5.jpg" alt="" style={{ width: " 50px" }} />{item.name}</td>
-                                                <td className="align-middle">{item.originalPrice}</td>
+                                                <td className="align-middle">{formatCash(item.originalPrice)}</td>
                                                 <td className="align-middle">
                                                     <div className="input-group quantity mx-auto" style={{ width: " 100px" }}>
                                                         <div className="input-group-btn">
@@ -98,7 +99,7 @@ function Cart({ }: Props) {
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td className="align-middle">{item.quantity * item.originalPrice}</td>
+                                                <td className="align-middle">{formatCash(item.quantity * item.originalPrice)}</td>
                                                 <td set-data={index} onClick={handleRemoveItemCart} className="align-middle"><button set-data={index} className="btn btn-sm btn-danger"><i set-data={index} className="fa fa-times"></i></button></td>
                                             </tr>
                                         )
@@ -121,7 +122,7 @@ function Cart({ }: Props) {
                             <div className="pt-2">
                                 <div className="d-flex justify-content-between mt-2">
                                     <h5>Total</h5>
-                                    <h5>{totalCart()}</h5>
+                                    <h5 style={{color:"red"}}>{formatCash(totalCart())}</h5>
                                 </div>
                                 <button className="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
                             </div>

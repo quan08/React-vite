@@ -1,15 +1,31 @@
 import { Button, Checkbox, Form, Input, message } from 'antd';
 import React from 'react';
-import { signup } from '../../api/auth';
-
-const SingnUpPape: React.FC = () => {
-  const onFinish = (values: any) => {
+import { Navigate, useNavigate } from 'react-router-dom';
+import { checkEmail, signin, signup } from '../../api/auth';
+import { User } from '../../types/User';
+import { ValidateEmail } from '../../utils/validate';
+type PropsSignUp = {
+  onSignUp: (user: User) => void
+}
+const SingnUpPape = (props: PropsSignUp) => {
+  const navigate = useNavigate()
+  const onFinish = async (values: any) => {
     console.log('Success:', values);
-    try {
-      signup(values)
-      message.success("Đăng ký thành công")
-    } catch (error) {
-      message.success("Đăng ký thất bại, hãy thử lại")
+    if (await ValidateEmail(values.email)) {
+      {
+        if (values.password.length <= 5) {
+          message.error('Mật khẩu tối thiếu 6 kí tự')
+        } else {
+          try {
+            signup(values)
+            props.onSignUp(values)
+            navigate("/");
+            message.success("Đăng ký thành công")
+          } catch (error) {
+            message.success("Đăng ký thất bại, hãy thử lại")
+          }
+        }
+      }
     }
   };
 
@@ -18,7 +34,7 @@ const SingnUpPape: React.FC = () => {
   };
 
   return (
-    <div style={{textAlign: 'center'}}>
+    <div style={{ textAlign: 'center' }}>
       <h3>SIGNUP</h3>
       <Form
 
@@ -32,8 +48,15 @@ const SingnUpPape: React.FC = () => {
       >
         <Form.Item
           label="Username"
-          name="email"
+          name="name"
           rules={[{ required: true, message: 'Please input your username!' }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Username"
+          name="email"
+          rules={[{ required: true, message: 'Please input your email!' }]}
         >
           <Input />
         </Form.Item>

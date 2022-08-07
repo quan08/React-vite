@@ -4,10 +4,13 @@ import { Link, useParams } from 'react-router-dom'
 import { getByCate, getById } from '../../../api/product';
 import { ProductTye } from '../../../types/product';
 import { addToCart, getLocalStorage } from '../../../utils/cart';
+import { formatCash } from '../../../utils/formatCash';
 
-type Props = {}
+type Props = {
+  addCart: () => void
+}
 
-function ProductsDetail({ }: Props) {
+const ProductsDetail = (props: Props) => {
   const { id } = useParams();
   const [products, setProducts] = useState<ProductTye>();
   const [productsByCate, setProductsByCate] = useState<ProductTye[]>([]);
@@ -39,7 +42,7 @@ function ProductsDetail({ }: Props) {
     addToCart({ ...products, quantity: quantity }, () => {
       console.log("được gọi sau khi add to cart nè");
     })
-
+    props.addCart()
     setQuantity(1)
   }
   useEffect(() => {
@@ -80,7 +83,7 @@ function ProductsDetail({ }: Props) {
               <div className="d-flex mb-3">
 
               </div>
-              <h3 className="font-weight-semi-bold mb-4">{products?.originalPrice}</h3>
+              <h3 className="font-weight-semi-bold mb-4">{formatCash(products?.originalPrice)}</h3>
 
               <div className="d-flex align-items-center mb-4 pt-2">
                 <div className="input-group quantity mr-3" style={{ width: "130px" }}>

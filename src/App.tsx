@@ -4,8 +4,8 @@ import './App.css'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import ProductAdminPage from './pages/Admin/Product/product'
 import CategoriesPage from './pages/Admin/categories'
-import AdminLayout from './components/Layout/admin'
-import UserLayout from './components/Layout/user'
+import AdminLayout from './components/Layout/AdminLayout'
+import UserLayout from './components/Layout/WebsiteLayout'
 import HomePage from './pages/User/Home/Home'
 import AddProductPage from './pages/Admin/Product/add'
 import EditProduct from './pages/Admin/Product/edit'
@@ -16,10 +16,13 @@ import { message } from 'antd'
 import ProductsDetail from './pages/User/ProductsDetail/ProductsDetail'
 import Cart from './pages/User/Cart/Cart'
 import SingnUpPape from './pages/Auth/signup'
+import { User } from './types/User'
+import { getLocalStorage, setLocalStorage } from './utils/cart'
 
 
 function App(props: any) {
-  const [count, setCount] = useState(0)
+  const [isSignIn, setIsSignIn] = useState<any>()
+  const [cart, setCart] = useState<any>()
   const [products, setProducts] = useState<ProductTye[]>([]);
 
   const handleChangeFilter = async (e: any) => {
@@ -33,6 +36,11 @@ function App(props: any) {
   }
 
   const handleFillterCate = async (key: any) => {
+    if(key == "All") {
+      const {data} = await getAll();
+      setProducts(data)
+      return
+    }
     const {data} = await getByCate(key)
     setProducts(data)
   }
@@ -65,6 +73,15 @@ function App(props: any) {
     console.log(dataUpdate)
   }
 
+  const handleSignIn = (userValue: User) => {
+    setLocalStorage("user", userValue)
+    setIsSignIn(userValue)
+  }
+
+  const handleAddCart = () => {
+    const data = getLocalStorage("cart")
+    setCart(data.length)
+  }
   useEffect(() => {
     const getPro = async () => {
       const { data } = await getAll();
@@ -75,12 +92,12 @@ function App(props: any) {
   return (
     <div className="App">
       <Routes>
-        <Route path='' element={<UserLayout onFillter={handleFillterCate} />}>
+        <Route path='' element={<UserLayout cart={cart} isSignInValue={isSignIn}onFillter={handleFillterCate} />}>
           <Route index element={<HomePage products={products}/>} />
-          <Route path="products/:id" element={<ProductsDetail />}/>
+          <Route path="products/:id" element={<ProductsDetail addCart={handleAddCart} />}/>
           <Route path="cart" element={<Cart />}/>
-          <Route path="signin" element={<SigninPage />}/>
-          <Route path="signup" element={<SingnUpPape />}/>
+          <Route path="signin" element={<SigninPage onSignIn={handleSignIn} />}/>
+          <Route path="signup" element={<SingnUpPape onSignUp={handleSignIn}  />}/>
         </Route>
         <Route path='admin' element={<AdminLayout />}>
           <Route index element={<Navigate to="products" />} />

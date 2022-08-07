@@ -6,6 +6,11 @@ export const signup = (user: User) => {
     return instance.post(url, user);
 }
 export const signin = (user: User) => {
-    const url = `/users?id=${user.email}`;
+    const url = `/users?email=${user.email}`;
+    return instance.get(url);
+}
+
+export const checkEmail = (email: any) => {
+    const url = `/users?email=${email}`;
     return instance.get(url);
 }

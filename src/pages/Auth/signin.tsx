@@ -1,9 +1,29 @@
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Checkbox, Form, Input, message } from 'antd';
 import React from 'react';
-
-const SingnPape: React.FC = () => {
-  const onFinish = (values: any) => {
+import { useNavigate } from 'react-router-dom';
+import { signin } from '../../api/auth';
+import { User } from '../../types/User';
+import { setLocalStorage } from '../../utils/cart';
+type propsSignIn = {
+  onSignIn: (data: User) => void
+}
+const SingnPape = (props: propsSignIn) => {
+  const navigate = useNavigate()
+  const onFinish = async (values: any) => {
     console.log('Success:', values);
+    const {data} = await signin(values)
+    if(data.length == 0) {
+      message.error("Tài khoản không tồn tại ")
+    }else{
+      if(data[0].password != values.password) {
+        message.error("Sai mật khẩu")
+      }else{
+        message.success("Đăng nhập thành công");
+        navigate("/")
+        // setLocalStorage("user", data[0])
+        props.onSignIn(data[0])
+      }
+    }
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -24,8 +44,8 @@ const SingnPape: React.FC = () => {
         autoComplete="off"
       >
         <Form.Item
-          label="Username"
-          name="username"
+          label="Email"
+          name="email"
           rules={[{ required: true, message: 'Please input your username!' }]}
         >
           <Input />

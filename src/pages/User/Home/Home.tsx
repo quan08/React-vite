@@ -1,6 +1,7 @@
 import React from 'react'
 import { ProductTye } from '../../../types/product';
 import {Link} from 'react-router-dom'
+import { formatCash } from '../../../utils/formatCash';
 type HomePapeProps = {
     products: ProductTye[];
 }
@@ -25,7 +26,7 @@ function home(props: HomePapeProps) {
                             <div style={{overflow: "hidden"}} className="text-center py-4">
                                 <a  className="h6 text-decoration-none text-truncate" href="">{item.name}</a>
                                 <div className="d-flex align-items-center justify-content-center mt-2">
-                                    <h5>{item.originalPrice}</h5><h6 className="text-muted ml-2"><del>{item.saleOffPrice}</del></h6>
+                                    <h5 style={{color: "red"}}>{formatCash(item.originalPrice)}</h5><h6 className="text-muted ml-2"><del>{formatCash(item.saleOffPrice)}</del></h6>
                                 </div>
                                
                             </div>
