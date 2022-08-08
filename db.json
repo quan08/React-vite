@@ -18,7 +18,22 @@
       "name": "dscscds",
       "email": "qe@gmail.com",
       "password": "dscsdcsc",
-      "id": 12
+      "id": 12,
+      "role":2
+    },
+    {
+      "name": "duc quan",
+      "email": "0347373926",
+      "password": "ducquan",
+      "id": 13,
+      "role": 2
+    },
+    {
+      "name": "ducquand",
+      "email": "quan@gmail.com",
+      "password": "123123",
+      "id": 14,
+      "role": 1
     }
   ],
   "products": [
@@ -26,7 +41,7 @@
       "originalPrice": 33990000,
       "saleOffPrice": 27390000,
       "categories": "watch",
-      "status": "ẩn",
+      "status": "hiện",
       "feature": "Màn hình Super Retina XDR 6.7 inch với ProMotion cho cảm giác nhanh nhạy hơn3\nChế độ Điện Ảnh làm tăng thêm độ sâu trường ảnh nông và tự động thay đổi tiêu cự trong video\nHệ thống camera chuyên nghiệp Telephoto, Wide và Ultra Wide 12MP; LiDAR Scanner; phạm vi thu phóng quang học 6x; chụp ảnh macro; Phong Cách Nhiếp Ảnh, video ProRes, HDR thông minh thế hệ 4, chế độ Ban Đêm, Apple ProRAW, khả năng quay video HDR Dolby Vision 4K",
       "description": "Cần có gói cước dữ liệu. Mạng 5G chỉ khả dụng ở một số thị trường và được cung cấp qua một số nhà mạng. Tốc độ có thể thay đổi tùy địa điểm và nhà mạng. Để biết thông tin về hỗ trợ mạng 5G, vui lòng liên hệ nhà mạng và truy cập apple.com/iphone/cellular.\n\n2Thời lượng pin khác nhau tùy theo cách sử dụng và cấu hình. Truy cập apple.com/batteries để biết thêm thông tin.\n\n",
       "image": "http://res.cloudinary.com/dv3vzmogk/image/upload/v1658451757/anhhtus/j3w45fwmhoc2lud84xi3.jpg",
@@ -38,7 +53,7 @@
       "originalPrice": 33990000,
       "saleOffPrice": 27390000,
       "categories": "laptop",
-      "status": "ẩn",
+      "status": "hiện",
       "feature": "Màn hình Super Retina XDR 6.7 inch với ProMotion cho cảm giác nhanh nhạy hơn3\nChế độ Điện Ảnh làm tăng thêm độ sâu trường ảnh nông và tự động thay đổi tiêu cự trong video\nHệ thống camera chuyên nghiệp Telephoto, Wide và Ultra Wide 12MP; LiDAR Scanner; phạm vi thu phóng quang học 6x; chụp ảnh macro; Phong Cách Nhiếp Ảnh, video ProRes, HDR thông minh thế hệ 4, chế độ Ban Đêm, Apple ProRAW, khả năng quay video HDR Dolby Vision 4K",
       "description": "Cần có gói cước dữ liệu. Mạng 5G chỉ khả dụng ở một số thị trường và được cung cấp qua một số nhà mạng. Tốc độ có thể thay đổi tùy địa điểm và nhà mạng. Để biết thông tin về hỗ trợ mạng 5G, vui lòng liên hệ nhà mạng và truy cập apple.com/iphone/cellular.\n\n2Thời lượng pin khác nhau tùy theo cách sử dụng và cấu hình. Truy cập apple.com/batteries để biết thêm thông tin.\n\n",
       "image": "http://res.cloudinary.com/dv3vzmogk/image/upload/v1658452051/anhhtus/whoikok09o1ssy85lcqm.jpg",
@@ -60,7 +75,7 @@
       "originalPrice": 121212,
       "saleOffPrice": 21213213,
       "categories": "tablet",
-      "status": "ẩn",
+      "status": "hiện",
       "feature": "Apple Watch Series 3 GPS Sport Band (Viền Nhôm, Dây Cao Su)",
       "description": "Apple Watch Series 3 GPS Sport Band (Viền Nhôm, Dây Cao Su)",
       "image": "http://res.cloudinary.com/dv3vzmogk/image/upload/v1658454475/anhhtus/zdhnew3zyqlwqlnygiza.jpg",

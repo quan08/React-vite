@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@types/styled-components": "^5.1.25",
+    "@ant-design/icons": "^4.7.0",
     "antd": "^4.21.6",
     "axios": "^0.27.2",
     "react": "^18.0.0",

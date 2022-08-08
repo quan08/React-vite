@@ -6,10 +6,10 @@ export const setLocalStorage = (key: any, value: any) => {
     localStorage.setItem(key, JSON.stringify(value));
 };
 // eslint-disable-next-line consistent-return
-export const getLocalStorage = (key: any ) => {
-    if (localStorage.getItem(key)) {
+export const getLocalStorage = (key: any) => {
+    // if (localStorage.getItem(key)) {
         return JSON.parse(localStorage.getItem(key));
-    }
+    // }
 };
 let cart: any = [];
 if (localStorage.getItem("cart")) {

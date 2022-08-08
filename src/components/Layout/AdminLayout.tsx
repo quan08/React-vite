@@ -12,7 +12,6 @@ const { Header, Content, Sider } = Layout;
 
 const item3: MenuProps['items'] = [
   { key: "products", icon: <PhoneOutlined />, label: <Link to="/admin">Sản phẩm</Link> },
-  { key: "audio", icon: <AudioOutlined />, label: "Âm thanh" },
   {
     key: "categories", icon: <SettingOutlined />,
     label: <Link to="/admin/categories">Categories</Link>
@@ -26,12 +25,16 @@ const App = () => {
   if (data == undefined) {
     isAdmin = false
   } else {
-    isAdmin = true
+    if(data.role == 1) {
+      isAdmin = true
+    }else{
+      isAdmin == false
+    }
   }
 
   if (!isAdmin) {
     navigate("/signin") 
-    message.error("Amdin cần đăng nhập")
+    message.error("Bạn không có quyền truy cập")
   }
   return (
     <Layout>

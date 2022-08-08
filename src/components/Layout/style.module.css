@@ -1,0 +1,79 @@
+.header {
+    background: #d70018;
+    padding: 0 160px;
+    display: flex;
+    justify-items: center;
+  }
+  .logo {
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    margin-right: 114px;
+  }
+  
+  .form_search {
+    display: flex;
+    align-self: center;
+    border: none;
+    margin-right: 40px;
+  }
+  
+  .form_input {
+    width: 350px;
+    height: 36px;
+    outline: none;
+    border: none;
+    border-radius: 0px 10px 10px 0px;
+  }
+  .button_submit {
+    height: 36px;
+    border: none;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px 0px 0px 10px;
+  }
+  
+  .infomation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .item {
+    display: flex;
+    align-items: center;
+    margin: 0px 10px;
+    color: #fff;
+    cursor: pointer;
+  }
+  .search {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .content {
+    text-align: left;
+    margin: 0 10px;
+  }
+  
+  .c {
+    position: relative;
+  }
+  
+  .quantity {
+    position: absolute;
+    top: 22px;
+    right: 366px;
+  }
+  
+  .bill_icon {
+    font-size: 23px;
+  }
+  
+  .btn_auth {
+    margin-bottom: 0;
+    margin-left: 5px;
+  }
+  

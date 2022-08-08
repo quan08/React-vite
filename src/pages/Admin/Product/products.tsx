@@ -143,7 +143,7 @@ const ProductAdminPage = (props: ProductsListProps) => {
         <>
             <Breadcrumb>
                 <Typography.Title level={2} style={{ margin: 0 }}>
-                    Điện thoại
+                    Sản phẩm
                 </Typography.Title>
                 <Link to="add">
                     <Button type="dashed" shape="circle" icon={<PlusOutlined />} />

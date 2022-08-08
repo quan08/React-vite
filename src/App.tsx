@@ -2,20 +2,20 @@ import { useEffect, useState } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import { Routes, Route, Navigate } from 'react-router-dom'
-import ProductAdminPage from './pages/Admin/Product/product'
-import CategoriesPage from './pages/Admin/categories'
+import ProductAdminPage from './pages/Admin/Product/products'
+import CategoriesPage from './pages/Admin/Catefories/categories'
 import AdminLayout from './components/Layout/AdminLayout'
 import UserLayout from './components/Layout/WebsiteLayout'
 import HomePage from './pages/User/Home/Home'
 import AddProductPage from './pages/Admin/Product/add'
 import EditProduct from './pages/Admin/Product/edit'
-import SigninPage from './pages/Auth/signin'
+import SigninPage from './pages/Admin/Product/Auth/signin'
 import { getAll, getByCate, getById, remove, updateProduct } from './api/product'
 import { ProductTye } from './types/product'
 import { message } from 'antd'
 import ProductsDetail from './pages/User/ProductsDetail/ProductsDetail'
 import Cart from './pages/User/Cart/Cart'
-import SingnUpPape from './pages/Auth/signup'
+import SingnUpPape from './pages/Admin/Product/Auth/signup'
 import { User } from './types/User'
 import { getLocalStorage, setLocalStorage } from './utils/cart'
 
@@ -82,6 +82,10 @@ function App(props: any) {
     const data = getLocalStorage("cart")
     setCart(data.length)
   }
+  const handleRemoveCartItem = () => {
+    const data = getLocalStorage("cart")
+    setCart(data.length)
+  }
   useEffect(() => {
     const getPro = async () => {
       const { data } = await getAll();
@@ -92,10 +96,10 @@ function App(props: any) {
   return (
     <div className="App">
       <Routes>
-        <Route path='' element={<UserLayout cart={cart} isSignInValue={isSignIn}onFillter={handleFillterCate} />}>
-          <Route index element={<HomePage products={products}/>} />
+        <Route path='' element={<UserLayout cart={cart} isSignInValue={isSignIn} />}>
+          <Route index element={<HomePage onFilter={handleFillterCate} products={products}/>} />
           <Route path="products/:id" element={<ProductsDetail addCart={handleAddCart} />}/>
-          <Route path="cart" element={<Cart />}/>
+          <Route path="cart" element={<Cart removeCartItem={handleRemoveCartItem} />}/>
           <Route path="signin" element={<SigninPage onSignIn={handleSignIn} />}/>
           <Route path="signup" element={<SingnUpPape onSignUp={handleSignIn}  />}/>
         </Route>

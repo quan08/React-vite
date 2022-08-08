@@ -4,9 +4,11 @@ import { ProductTye } from '../../../types/product'
 import { getLocalStorage, setLocalStorage } from '../../../utils/cart'
 import { formatCash } from '../../../utils/formatCash'
 
-type Props = {}
+type Props = {
+    removeCartItem: () => void
+}
 
-function Cart({ }: Props) {
+function Cart(props: Props) {
     const [productCart, setProductsCart] = useState<ProductTye[]>([])
     const getPro = () => {
         const data = getLocalStorage("cart");
@@ -25,6 +27,7 @@ function Cart({ }: Props) {
         setLocalStorage("cart", Cart);
         message.success('Xóa thành công')
         getPro()
+        props.removeCartItem();
     }
 
     const totalCart =() => {

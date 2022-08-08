@@ -1,9 +1,9 @@
 import { Button, Checkbox, Form, Input, message } from 'antd';
 import React from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { checkEmail, signin, signup } from '../../api/auth';
-import { User } from '../../types/User';
-import { ValidateEmail } from '../../utils/validate';
+import { checkEmail, signin, signup } from '../../../../api/auth';
+import { User } from '../../../../types/User';
+import { ValidateEmail } from '../../../../utils/validate';
 type PropsSignUp = {
   onSignUp: (user: User) => void
 }

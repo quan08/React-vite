@@ -1,9 +1,9 @@
 import { Button, Checkbox, Form, Input, message } from 'antd';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { signin } from '../../api/auth';
-import { User } from '../../types/User';
-import { setLocalStorage } from '../../utils/cart';
+import { signin } from '../../../../api/auth';
+import { User } from '../../../../types/User';
+import { setLocalStorage } from '../../../../utils/cart';
 type propsSignIn = {
   onSignIn: (data: User) => void
 }
