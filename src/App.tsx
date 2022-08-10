@@ -98,7 +98,7 @@ function App(props: any) {
       <Routes>
         <Route path='' element={<UserLayout cart={cart} isSignInValue={isSignIn} />}>
           <Route index element={<HomePage onFilter={handleFillterCate} products={products}/>} />
-          <Route path="products/:id" element={<ProductsDetail addCart={handleAddCart} />}/>
+          <Route path="products/:id" element={<ProductsDetail addToCart={handleAddCart} />}/>
           <Route path="cart" element={<Cart removeCartItem={handleRemoveCartItem} />}/>
           <Route path="signin" element={<SigninPage onSignIn={handleSignIn} />}/>
           <Route path="signup" element={<SingnUpPape onSignUp={handleSignIn}  />}/>

@@ -46,7 +46,7 @@ const items2: MenuProps["items"] = [
   },
 ];
 type Props = {
-  addCart: () => void
+  addToCart: () => void
 }
 
 const ProductsDetail = (props: Props) => {
@@ -80,8 +80,10 @@ const ProductsDetail = (props: Props) => {
   const handleAddtoCart = () => {
     addToCart({ ...products, quantity: 1 }, () => {
       console.log("được gọi sau khi add to cart nè");
+      console.log(products);
+      
     })
-    props.addCart()
+    props.addToCart()
     // setQuantity(1)
   }
   useEffect(() => {
@@ -162,7 +164,7 @@ const ProductsDetail = (props: Props) => {
                 <Row>
                  
                     <Bot1  onClick={handleAddtoCart}>
-                      <ShoppingCartOutlined onClick={handleAddtoCart} />
+                      <ShoppingCartOutlined />
                     </Bot1>
                 </Row>
               </Dv3>
