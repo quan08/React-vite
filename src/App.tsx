@@ -110,7 +110,7 @@ function App(props: any) {
             <Route path='add' element={<AddProductPage />} />
             <Route path='edit/:id' element={<EditProduct handleUPdates={handleUPdateProducts} />} />
           </Route>
-          <Route path='categories' element={<CategoriesPage />} />
+          {/* <Route path='categories' element={<CategoriesPage changeStatus={changeStatus} />} /> */}
         </Route>
       </Routes>
     </div>
