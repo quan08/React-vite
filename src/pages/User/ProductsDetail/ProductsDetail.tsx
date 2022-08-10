@@ -164,7 +164,7 @@ const ProductsDetail = (props: Props) => {
                 <Row>
                  
                     <Bot1  onClick={handleAddtoCart}>
-                      <ShoppingCartOutlined />
+                      <ShoppingCartOutlined onClick={handleAddtoCart} />
                     </Bot1>
                 </Row>
               </Dv3>
