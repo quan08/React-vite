@@ -2,11 +2,12 @@ import { Button, Checkbox, Form, Input, message } from 'antd';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { signin } from '../../api/auth';
-import { updateAuth } from '../../redux/action';
-import { User } from '../../types/User';
-import { setLocalStorage } from '../../utils/cart';
+import { signin } from '../../../api/auth';
+import { updateAuth } from '../../../redux/action';
+import { User } from '../../../types/User';
+import { setLocalStorage } from '../../../utils/cart';
 type propsSignIn = {
+  
 }
 const SingnPape = (props: propsSignIn) => {
   const navigate = useNavigate()
