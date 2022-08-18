@@ -20,6 +20,8 @@ import {
     Tooltip,
 } from 'antd';
 import { ProductTye } from '../../../types/product'
+import { Categories } from "../../../types/categories";
+import { getCateById } from "../../../api/categories";
 
 interface DataType {
     name: string;
@@ -29,9 +31,7 @@ interface DataType {
 }
 
 type ProductsListProps = {
-    product: ProductTye[];
-    handleChangeFilter: (value: string) => void,
-    changeStatus: (id: any) => void
+    cate: any[];
     onRemovePro: (id: any) => void
 }
 
@@ -42,58 +42,26 @@ const CategoriesPage = (props: ProductsListProps) => {
     const [visible, setVisible] = React.useState(false);
     const [confirmLoading, setConfirmLoading] = React.useState(false);
     const [dataTable, setDataTable] = useState<ProductTye[]>([])
-    const [proDelete, setProdelete] = useState<ProductTye>();
+    const [cateDelete, setCatedelete] = useState<ProductTye>();
 
     const handleOk = async () => {
         setModalText('Xóa thành công ');
         // const res = await listMenu();
         setConfirmLoading(true);
-        props.onRemovePro(proDelete?.id);
-        message.success("Xóa thành công " + proDelete?.name)
+        props.onRemovePro(cateDelete?.id);
+        message.success("Xóa thành công " + cateDelete?.name)
         setVisible(false);
         // setConfirmLoading(false);
     };
 
     const columns: ColumnsType<DataType> = [
         {
-            title: 'Tên sản phẩm',
+            title: 'Tên danh mục',
             dataIndex: 'name',
             key: 'name',
             render: text => <a>{text}</a>,
         },
-        {
-            title: 'Image',
-            dataIndex: 'image',
-            key: 'image',
-            render: (record: any) => (
-                <img width="150px" height="150px" src={record} alt="" />
-            )
-        },
-        {
-            title: 'Giá khuyến mãi',
-            dataIndex: 'saleOffPrice',
-            key: 'saleOffPrice',
-        },
-        {
-            title: 'Mô tả',
-            dataIndex: 'description',
-            key: 'description',
-        },
-        {
-            title: 'Ẩn/hiện',
-            dataIndex: 'status',
-            key: 'status',
-            render: (record: any) => {
-                if (record === "hiện") {
-                    return <div style={{ color: "green", fontSize: "20px" }}>
-                        <CheckOutlined />
-                    </div>
-                }
-                return <div style={{ color: "red", fontSize: "20px" }}>
-                    <CloseOutlined />
-                </div>
-            }
-        },
+        
         {
             title: 'Thao tác',
             key: 'id',
@@ -101,9 +69,6 @@ const CategoriesPage = (props: ProductsListProps) => {
             render: (record: any) => (
                 <Space size="middle">
 
-                    <Button danger onClick={async () => {
-                        props.changeStatus(record)
-                    }}  ><span>ChangeStatus</span></Button>
                     <Button onClick={() => navigate(`edit/${record}`)} type="primary"><span>Edit</span></Button>
                     <Button set-data={record} onClick={showModal} danger><span set-data={record}>Dell</span></Button>
                 </Space>
@@ -116,10 +81,10 @@ const CategoriesPage = (props: ProductsListProps) => {
         const showModal = async (e: any) => {
             const id = e.target.getAttribute('set-data');
             console.log(id)
-            const { data } = await getById(id)
+            const { data } = await getCateById(id)
             console.log(data)
-            setProdelete(data[0])
-            setModalText(`*Sản phẩm sẽ bị xóa vĩnh viễn`);
+            setCatedelete(data[0])
+            setModalText(`*Danh mục sẽ bị xóa vĩnh viễn`);
             setVisible(true);
             setConfirmLoading(false);
         };
@@ -138,16 +103,16 @@ const CategoriesPage = (props: ProductsListProps) => {
                         <Button type="dashed" shape="circle" icon={<PlusOutlined />} />
                     </Link>
                 </Breadcrumb>
-                <Table columns={columns} dataSource={props.product} />
+                <Table columns={columns} dataSource={props.cate} />
                 <Modal
 
-                    title={proDelete?.name}
+                    title={cateDelete?.name}
                     visible={visible}
                     onOk={handleOk}
                     confirmLoading={confirmLoading}
                     onCancel={handleCancel}
                 >
-                    <img width="80px" height="80px" src={proDelete?.image} alt="" /> <br /> <br />
+                    <img width="80px" height="80px" src={cateDelete?.image} alt="image danh mục" /> <br /> <br />
                     <strong className='text-danger'>{modalText}</strong>
                 </Modal>
             </>
