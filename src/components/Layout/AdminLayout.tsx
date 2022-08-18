@@ -32,7 +32,7 @@ const App = () => {
     }
   }
 
-  if (!isAdmin) {
+  if (isAdmin == false) {
     navigate("/signin") 
     message.error("Bạn không có quyền truy cập")
   }

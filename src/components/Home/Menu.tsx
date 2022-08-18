@@ -6,6 +6,9 @@ import { Link } from 'react-router-dom'
 import { getAllCate } from '../../api/categories';
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { Select } from 'antd';
+import { useDispatch } from 'react-redux';
+import { getAll, getByCate } from '../../api/product';
+import {  getProducts } from '../../redux/action';
 
 const { Option } = Select;
 
@@ -14,20 +17,27 @@ const handleChange = (value: string) => {
 };
 
 type propsHome = {
-  onFillter: (key: any) => void
 }
 
 const HomeMenu = (props: propsHome) => {
   const [cate, setCate] = useState<any>();
-  const handlefillterCate = (e: any) => {
-    console.log(e);
-    props.onFillter(e)
+  const dispatch= useDispatch() 
+  const handlefillterCate = async (e: any) => {
+    if(e == "All") {
+      const {data} = await getAll();
+      dispatch(getProducts(data))
+      return
+    }
+    const {data} = await getByCate(e)
+    dispatch(getProducts(data))
+  
   }
 
   const getCate = async () => {
     const { data } = await getAllCate();
     setCate(data)
   }
+  
   useEffect(() => {
     getCate()
   }, [])

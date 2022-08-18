@@ -4,11 +4,11 @@ import { Typography, Button, Table, Select, Space, Modal, message } from 'antd';
 import { Link, useNavigate } from 'react-router-dom'
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
-import { getAll, getByCate, getById, updateProduct } from "../../../api/product";
+import { getAll, getByCate, getById, remove, updateProduct } from "../../../api/product";
 import { useQuery } from 'react-query'
 import Input from "antd/lib/input/Input";
 import { Option } from "antd/lib/mentions";
-import{CheckOutlined, CloseOutlined} from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 const { Paragraph } = Typography
 import {
     AutoComplete,
@@ -20,6 +20,8 @@ import {
     Tooltip,
 } from 'antd';
 import { ProductTye } from '../../../types/product'
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../../../redux/action";
 
 interface DataType {
     name: string;
@@ -29,30 +31,46 @@ interface DataType {
 }
 
 type ProductsListProps = {
-    product: ProductTye[];
-    handleChangeFilter: (value: string) => void,
-    changeStatus: (id: any) => void
-    onRemovePro: (id: any) => void
-  }
+    
+}
 
 
 const ProductAdminPage = (props: ProductsListProps) => {
     const navigate = useNavigate()
+    const dispath = useDispatch();
     const [modalText, setModalText] = React.useState<string>();
     const [visible, setVisible] = React.useState(false);
     const [confirmLoading, setConfirmLoading] = React.useState(false);
     const [dataTable, setDataTable] = useState<ProductTye[]>([])
     const [proDelete, setProdelete] = useState<ProductTye>();
-
+    const dataProduct = useSelector((data: any) => data.products.value);
     const handleOk = async () => {
         setModalText('Xóa thành công ');
         // const res = await listMenu();
         setConfirmLoading(true);
-        props.onRemovePro(proDelete?.id);
+        await remove(proDelete?.id)
         message.success("Xóa thành công " + proDelete?.name)
         setVisible(false);
+        const { data } = await getAll();
+        dispath(getProducts(data))
         // setConfirmLoading(false);
     };
+
+
+    const changeStatus = async (id: any) => {
+        const { data } = await getById(id)
+        let statusNew = "";
+        if (data[0].status == "hiện") {
+            statusNew = 'ẩn'
+        } else {
+            statusNew = 'hiện'
+        }
+        const dataUpdate = { ...data[0], status: statusNew }
+
+        await updateProduct(dataUpdate, id)
+        const dataNew = await getAll();
+        dispath(getProducts(dataNew.data))
+    }
 
     const columns: ColumnsType<DataType> = [
         {
@@ -84,12 +102,12 @@ const ProductAdminPage = (props: ProductsListProps) => {
             dataIndex: 'status',
             key: 'status',
             render: (record: any) => {
-                if(record === "hiện") {
-                    return <div style={{color: "green", fontSize: "20px"}}>
-                        <CheckOutlined/>
+                if (record === "hiện") {
+                    return <div style={{ color: "green", fontSize: "20px" }}>
+                        <CheckOutlined />
                     </div>
                 }
-                return <div style={{color: "red", fontSize: "20px"}}>
+                return <div style={{ color: "red", fontSize: "20px" }}>
                     <CloseOutlined />
                 </div>
             }
@@ -99,10 +117,10 @@ const ProductAdminPage = (props: ProductsListProps) => {
             key: 'id',
             dataIndex: 'id',
             render: (record: any) => (
-                <Space  size="middle">
-                    
-                    <Button danger onClick={ async() => {
-                        props.changeStatus(record)
+                <Space size="middle">
+
+                    <Button danger onClick={async () => {
+                       changeStatus(record)
                     }}  ><span>ChangeStatus</span></Button>
                     <Button onClick={() => navigate(`edit/${record}`)} type="primary"><span>Edit</span></Button>
                     <Button set-data={record} onClick={showModal} danger><span set-data={record}>Dell</span></Button>
@@ -111,6 +129,16 @@ const ProductAdminPage = (props: ProductsListProps) => {
         },
 
     ];
+
+    const handleChangeFilter = async (e: any) => {
+        if (e === '') {
+            const { data } = await getAll();
+            dispath(getProducts(data))
+            return
+        }
+        const { data } = await getByCate(e)
+        dispath(getProducts(data))
+    }
 
     const showModal = async (e: any) => {
         const id = e.target.getAttribute('set-data');
@@ -128,13 +156,13 @@ const ProductAdminPage = (props: ProductsListProps) => {
         setVisible(false);
     };
 
-    const handleChangeFilter = (e: any) => {
-        props.handleChangeFilter(e)
-    }
-
     // fetchData()
     useEffect(() => {
-        setDataTable(props.product)
+        const getpro = async () => {
+            const { data } = await getAll()
+            dispath(getProducts(data))
+        }
+        getpro()
     }, [])
 
     // const { isLoading, data, error } = useQuery("Products", getAll)
@@ -158,7 +186,7 @@ const ProductAdminPage = (props: ProductsListProps) => {
                     <Option value="tablet">Máy tính bảng</Option>
                 </Select>
             </div>
-            <Table columns={columns} dataSource={props.product} />
+            <Table columns={columns} dataSource={dataProduct} />
             <Modal
 
                 title={proDelete?.name}

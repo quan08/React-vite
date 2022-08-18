@@ -19,6 +19,8 @@ const { Text, Title } = Typography;
 import Card from "antd/lib/card/Card";
 import LogoImage from "../../../assets/image/Rectangle.png";
 import { StarOutlined } from "@ant-design/icons";
+import { useDispatch, useSelector } from 'react-redux';
+import { updateCart } from '../../../redux/action';
 // import { useDispatch } from "react-redux";
 
 const style: React.CSSProperties = {
@@ -46,11 +48,12 @@ const items2: MenuProps["items"] = [
   },
 ];
 type Props = {
-  addToCart: () => void
+ 
 }
 
 const ProductsDetail = (props: Props) => {
   const { id } = useParams();
+  const dispath = useDispatch()
   const [products, setProducts] = useState<any>();
   const [productsByCate, setProductsByCate] = useState<ProductTye[]>([]);
   const [quantity, setQuantity] = useState<number>(1)
@@ -81,10 +84,9 @@ const ProductsDetail = (props: Props) => {
     addToCart({ ...products, quantity: 1 }, () => {
       console.log("được gọi sau khi add to cart nè");
       console.log(products);
-      
     })
-    props.addToCart()
-    // setQuantity(1)
+    const data = getLocalStorage('cart')
+    dispath(updateCart(data))
   }
   useEffect(() => {
     getPro()
@@ -164,7 +166,7 @@ const ProductsDetail = (props: Props) => {
                 <Row>
                  
                     <Bot1  onClick={handleAddtoCart}>
-                      <ShoppingCartOutlined onClick={handleAddtoCart} />
+                      <ShoppingCartOutlined />
                     </Bot1>
                 </Row>
               </Dv3>

@@ -10,13 +10,14 @@ export const getLocalStorage = (key: string) => {
         return JSON.parse(localStorage.getItem(key) || "{}");
     }
 };
-let cart: any = [];
-if (localStorage.getItem("cart")) {
-    cart = getLocalStorage("cart");
-}
 
 // eslint-disable-next-line import/prefer-default-export
 export const addToCart = (newItem: any, next: any) => {
+
+    let cart: any = [];
+    if (localStorage.getItem("cart")) {
+        cart = getLocalStorage("cart");
+    }
     const existItem = cart.find((item: any) => item.id === newItem.id);
     if (!existItem) {
         cart.push(newItem);
@@ -24,7 +25,7 @@ export const addToCart = (newItem: any, next: any) => {
     } else {
         // eslint-disable-next-line no-plusplus
         existItem.quantity += newItem.quantity;
-        message.success("Sản phẩm này đã có trong giỏ, tăng số lượng lên"+ newItem.quantity);
+        message.success("Sản phẩm này đã có trong giỏ, tăng số lượng lên" + newItem.quantity);
     }
     setLocalStorage("cart", cart);
     next();

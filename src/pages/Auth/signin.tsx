@@ -1,14 +1,16 @@
 import { Button, Checkbox, Form, Input, message } from 'antd';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { signin } from '../../../../api/auth';
-import { User } from '../../../../types/User';
-import { setLocalStorage } from '../../../../utils/cart';
+import { signin } from '../../api/auth';
+import { updateAuth } from '../../redux/action';
+import { User } from '../../types/User';
+import { setLocalStorage } from '../../utils/cart';
 type propsSignIn = {
-  onSignIn: (data: User) => void
 }
 const SingnPape = (props: propsSignIn) => {
   const navigate = useNavigate()
+  const dispath = useDispatch();
   const onFinish = async (values: any) => {
     console.log('Success:', values);
     const {data} = await signin(values)
@@ -21,7 +23,8 @@ const SingnPape = (props: propsSignIn) => {
         message.success("Đăng nhập thành công");
         navigate("/")
         // setLocalStorage("user", data[0])
-        props.onSignIn(data[0])
+        setLocalStorage("user", values)
+        dispath(updateAuth(data[0]))
       }
     }
   };

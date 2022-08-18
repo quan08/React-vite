@@ -3,7 +3,7 @@ import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { getAllCate } from "../../api/categories";
 import { Categories } from "../../types/categories";
 import { Button, Modal, message, Menu, Dropdown, Badge } from 'antd';
-import { getByName } from "../../api/product";
+import { getAll, getByCate, getByName } from "../../api/product";
 import { StarOutlined } from "@ant-design/icons";
 import { ProductTye } from "../../types/product";
 import { Row, Col, Carousel, Divider, Typography } from "antd";
@@ -18,21 +18,23 @@ import { AudioOutlined } from '@ant-design/icons';
 import { Input, Space } from 'antd';
 import image from "../../assets/images/logo.png";
 import { SearchOutlined, UserOutlined } from "@ant-design/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { updateAuth, updateCart } from "../../redux/action";
 
 type PropsLayoutWensite = {
   // onFillter: (key: any) => void
-  isSignInValue: User;
-  cart: any;
 }
 
 const UserLayout = (props: PropsLayoutWensite) => {
+  const dispath = useDispatch()
+  const Cart = useSelector((data: any) => data.cart.value);
   const [cate, setCate] = useState<Categories[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [keySearch, setKeySearch] = useState<string>("")
-  const [isSign, setIsSign] = useState<User>()
-  const [cart, setCart] = useState<any>(0)
+  const isSign = useSelector((data: any) => data.auth.value);
   const [productsSearch, setProductsSearch] = useState<any[]>([]);
   const navigate = useNavigate();
+  
   const getCate = async () => {
     const { data } = await getAllCate();
     setCate(data)
@@ -48,24 +50,23 @@ const UserLayout = (props: PropsLayoutWensite) => {
     />
   );
 
-  const getIsSingnIn = () => {
-    const data = getLocalStorage('user')
-    setIsSign(data)
-  }
 
   const getCart = () => {
     const data = getLocalStorage('cart')
     // console.log((data.length));
     if (data != undefined) {
-      setCart(data.length)
+      dispath(updateCart(data))
     }
   }
 
   useEffect(() => {
     getCate();
-    getIsSingnIn();
     getCart()
-  }, [props.isSignInValue, props.cart])
+    const res = getLocalStorage("user");
+    if(res){
+      dispath(updateAuth(res))
+    }
+  }, [])
 
   const showModal = () => {
     if (keySearch != "") {
@@ -105,7 +106,7 @@ const UserLayout = (props: PropsLayoutWensite) => {
   }
   const handleLogout = () => {
     localStorage.removeItem("user");
-    setIsSign(undefined)
+    dispath(updateAuth([]))
     message.success("Log Out !")
   }
 
@@ -291,7 +292,7 @@ const UserLayout = (props: PropsLayoutWensite) => {
             <div className={style.bill_icon}>
               <UserOutlined />
             </div>
-            {isSign ? (
+            {isSign.length != 0 ? (
               <Dropdown overlay={menuAuth} placement="bottomRight" arrow>
                 <p className={style.btn_auth}>
                   Hi! <br />
@@ -310,7 +311,7 @@ const UserLayout = (props: PropsLayoutWensite) => {
           <Link to={`/cart`}>
             <div className={style.item}>
               <div className={style.cart_icon}>
-                <Badge count={cart}>
+                <Badge count={Cart.length}>
                   <svg
                     width="25"
                     height="25"

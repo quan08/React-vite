@@ -9,13 +9,15 @@ import { Button } from "antd/lib/radio";
 // import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { updateCart } from '../../../redux/action'
 
 type Props = {
-    removeCartItem: () => void
 }
 
 function Cart(props: Props) {
     const [productCart, setProductsCart] = useState<ProductTye[]>([])
+    const dispath = useDispatch()
     const getPro = () => {
         const data = getLocalStorage("cart");
         if (data != undefined) {
@@ -28,14 +30,19 @@ function Cart(props: Props) {
 
     const handleRemoveItemCart = (e: any) => {
         const idPro = e.target.getAttribute("set-data");
-        const Cart = productCart;
+        const Cart: any = productCart;
         const CartNew = Cart.splice(idPro, 1)
         console.log(Cart)
-        localStorage.removeItem('cart')
-        setLocalStorage("cart", Cart);
+        if(Cart.length == 0) {
+          setProductsCart([])
+          localStorage.removeItem('cart') 
+        }else{
+          localStorage.removeItem('cart')
+          setLocalStorage("cart", Cart);
+          getPro()
+        }
         message.success('Xóa thành công')
-        getPro()
-        props.removeCartItem();
+        dispath(updateCart(Cart))
     }
 
     const totalCart = () => {

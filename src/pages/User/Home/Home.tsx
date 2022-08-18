@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ProductTye } from '../../../types/product';
 import { Link } from 'react-router-dom'
 import { formatCash } from '../../../utils/formatCash';
@@ -14,10 +14,12 @@ const { Text, Title } = Typography;
 import { StarOutlined } from "@ant-design/icons";
 import LogoImage1 from "../../../assets/image/Rectangle2.png";
 import PhukienApple from "../../../assets/image/phukienApp.png";
+import { useDispatch, useSelector } from 'react-redux';
+import { getProducts } from '../../../redux/action';
+import { getAll } from '../../../api/product';
+
 
 type HomePapeProps = {
-  onFilter: (key: any) => void
-  products: any[];
 }
 
 const style: React.CSSProperties = {
@@ -31,13 +33,21 @@ const styles: React.CSSProperties = {
 };
 
 function home(props: HomePapeProps) {
-  console.log(props.products)
+  const dataProduct = useSelector((data: any) => data.products.value);
+  const dispatch = useDispatch()
+  useEffect(() => {
+    const getPro = async () => {
+      const { data } = await getAll();
+      dispatch(getProducts(data))
+    }
+    getPro()
+  }, [])
   return (
     <div>
       <Container>
         <Row>
           <Col span={6}>
-            <HomeMenu onFillter={props.onFilter} />
+            <HomeMenu />
           </Col>
           <Col span={18}>
             <Carousel autoplay>
@@ -52,8 +62,8 @@ function home(props: HomePapeProps) {
       <div>
         <h2 style={{ textAlign: "center", marginTop: "20px" }}>Sản phẩm</h2>
         <Row style={{ width: "100%" }} gutter={[16, 24]}>
-          {props.products &&
-            props.products.map((product, index) => {
+          {dataProduct &&
+            dataProduct.map((product: ProductTye, index: number) => {
               return (
 
                 <Col className="gutter-row" span={4} style={style} key={index}>

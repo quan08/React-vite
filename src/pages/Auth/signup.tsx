@@ -1,14 +1,17 @@
 import { Button, Checkbox, Form, Input, message } from 'antd';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { checkEmail, signin, signup } from '../../../../api/auth';
-import { User } from '../../../../types/User';
-import { ValidateEmail } from '../../../../utils/validate';
+import { checkEmail, signin, signup } from '../../api/auth';
+import { updateAuth } from '../../redux/action';
+import { User } from '../../types/User';
+import { setLocalStorage } from '../../utils/cart';
+import { ValidateEmail } from '../../utils/validate';
 type PropsSignUp = {
-  onSignUp: (user: User) => void
 }
 const SingnUpPape = (props: PropsSignUp) => {
   const navigate = useNavigate()
+  const dispath = useDispatch();
   const onFinish = async (values: any) => {
     console.log('Success:', values);
     if (await ValidateEmail(values.email)) {
@@ -18,9 +21,10 @@ const SingnUpPape = (props: PropsSignUp) => {
         } else {
           try {
             signup(values)
-            props.onSignUp(values)
             navigate("/");
             message.success("Đăng ký thành công")
+            setLocalStorage("user", values)
+            dispath(updateAuth(values))
           } catch (error) {
             message.success("Đăng ký thất bại, hãy thử lại")
           }
