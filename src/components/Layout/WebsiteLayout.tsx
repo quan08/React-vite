@@ -91,14 +91,11 @@ const UserLayout = (props: PropsLayoutWensite) => {
   }
 
   const handleFillterSearch = async () => {
-    const { data } = await getByName(keySearch)
-    console.log(data)
-    await setProductsSearch(data)
-    if (data.length == 0) {
-      message.warning("Không có sản phẩm nào phù hợp với từ khóa")
-    } else {
-      setIsModalVisible(true);
-    }
+    console.log(keySearch);
+    const {data} = await getByName(keySearch)
+    console.log(data);
+    setIsModalVisible(true)  
+    setProductsSearch(data)
   }
   const handleGotoAdmin = () => {
     navigate("/admin")
